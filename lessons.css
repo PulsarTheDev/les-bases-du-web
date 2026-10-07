@@ -1,0 +1,92 @@
+:root {
+  color-scheme: dark;
+  --paper: #0b090a;
+  --ink: #f4eeee;
+  --muted: #a99b9d;
+  --line: #39272b;
+  --accent: #e52b45;
+  --code: #151012;
+  font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+* { box-sizing: border-box; }
+body { min-width: 320px; margin: 0; line-height: 1.65; }
+a { color: inherit; }
+.wrap { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
+
+.topbar {
+  display: flex;
+  min-height: 82px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.wordmark { display: inline-flex; align-items: center; gap: 10px; font-size: .95rem; font-weight: 800; text-decoration: none; }
+.mark { display: grid; width: 34px; aspect-ratio: 1; place-items: center; border-radius: 10px 10px 10px 3px; background: #a90e27; font-family: Georgia, "Times New Roman", serif; font-size: 1.2rem; }
+.topbar nav { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 26px; }
+.topbar nav a { color: var(--muted); font-size: .9rem; text-decoration: none; }
+.topbar nav a:hover, .topbar nav a:focus-visible, .topbar nav a[aria-current="page"] { color: #ff8b9a; }
+a:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+
+.course-main { padding-block: 76px 92px; }
+.course-heading { max-width: 800px; padding-bottom: 46px; }
+.kicker { margin: 0 0 18px; color: #ff8b9a; font-size: .78rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+h1, h2, h3, p { margin-top: 0; }
+h1 { margin-bottom: 18px; font-family: Georgia, "Times New Roman", serif; font-size: 4.5rem; font-weight: 400; letter-spacing: 0; line-height: 1; }
+.lead { max-width: 700px; margin: 0; color: var(--muted); font-size: 1.12rem; }
+
+.concept {
+  display: grid;
+  grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr);
+  gap: 42px;
+  padding-block: 30px;
+  border-top: 1px solid var(--line);
+}
+
+.concept-copy { max-width: 440px; }
+.concept-number { display: block; margin-bottom: 9px; color: #ff657b; font-size: .75rem; font-weight: 800; }
+.concept h2 { margin-bottom: 10px; font-family: Georgia, "Times New Roman", serif; font-size: 1.8rem; font-weight: 400; line-height: 1.2; }
+.concept p { margin-bottom: 12px; color: var(--muted); }
+.concept p:last-child { margin-bottom: 0; }
+
+pre {
+  overflow-x: auto;
+  align-self: start;
+  margin: 0;
+  padding: 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--code);
+  color: #f4eeee;
+  font: 500 .88rem/1.8 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  tab-size: 2;
+}
+
+.code-tag { color: #ff657b; }
+.code-attr { color: #e1a2ad; }
+.code-comment { color: #a99b9d; }
+.course-pager { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; padding-top: 30px; border-top: 1px solid var(--line); }
+.course-pager a { color: #ff8b9a; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+footer { display: flex; justify-content: space-between; gap: 20px; padding-block: 20px 28px; border-top: 1px solid var(--line); color: var(--muted); font-size: .82rem; }
+footer p { margin: 0; }
+
+@media (max-width: 700px) {
+  .wrap { width: min(100% - 40px, 560px); }
+  .topbar { align-items: flex-start; flex-direction: column; justify-content: center; padding-block: 14px; }
+  .topbar nav { gap: 8px 18px; }
+  .course-main { padding-block: 54px 68px; }
+  .course-heading { padding-bottom: 32px; }
+  h1 { font-size: 3.4rem; }
+  .concept { grid-template-columns: 1fr; gap: 18px; }
+}
+
+@media (max-width: 420px) {
+  .wrap { width: calc(100% - 36px); }
+  h1 { font-size: 2.8rem; }
+  pre { padding: 16px; font-size: .76rem; }
+  footer { flex-direction: column; gap: 8px; }
+}

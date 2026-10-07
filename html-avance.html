@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b090a">
+  <meta name="description" content="Approfondis le HTML avec la sémantique, les formulaires accessibles et les métadonnées.">
+  <title>HTML plus solide · Les bases du web</title>
+  <link rel="stylesheet" href="lessons.css">
+</head>
+<body>
+  <header class="topbar wrap">
+    <a class="wordmark" href="ex.html#accueil" aria-label="Les bases du web, accueil"><span class="mark" aria-hidden="true">&lt;/&gt;</span><span>Les bases du web</span></a>
+    <nav aria-label="Navigation principale">
+      <a href="ex.html">Accueil</a>
+      <a href="html-avance.html" aria-current="page">HTML</a>
+      <a href="css-avance.html">CSS</a>
+      <a href="javascript-avance.html">JavaScript</a>
+    </nav>
+  </header>
+  <main class="course-main wrap">
+    <header class="course-heading">
+      <p class="kicker">01 · Structure</p>
+      <h1>Un HTML plus solide</h1>
+      <p class="lead">Une page bien structurée est plus simple à lire, à maintenir et à utiliser au clavier ou avec un lecteur d’écran. Voici trois habitudes qui font une vraie différence.</p>
+    </header>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">01 / SÉMANTIQUE</span>
+        <h2>Choisis les balises pour leur sens</h2>
+        <p>Utilise <code>&lt;nav&gt;</code> pour la navigation, <code>&lt;main&gt;</code> pour le contenu principal et <code>&lt;article&gt;</code> pour un contenu autonome. La structure aide les technologies d’assistance à proposer des raccourcis utiles.</p>
+      </div>
+      <pre><code><span class="code-tag">&lt;header&gt;</span>
+  <span class="code-tag">&lt;nav</span> <span class="code-attr">aria-label</span>=<span class="code-comment">"Principale"</span><span class="code-tag">&gt;</span>...<span class="code-tag">&lt;/nav&gt;</span>
+<span class="code-tag">&lt;/header&gt;</span>
+<span class="code-tag">&lt;main&gt;</span>
+  <span class="code-tag">&lt;article&gt;</span>...<span class="code-tag">&lt;/article&gt;</span>
+<span class="code-tag">&lt;/main&gt;</span></code></pre>
+    </article>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">02 / FORMULAIRES</span>
+        <h2>Associe chaque champ à son libellé</h2>
+        <p>Un placeholder n’est pas un remplacement fiable du libellé : il disparaît pendant la saisie. L’attribut <code>for</code> relie le texte au champ, et <code>required</code> indique qu’une valeur est attendue.</p>
+      </div>
+      <pre><code><span class="code-tag">&lt;label</span> <span class="code-attr">for</span>=<span class="code-comment">"email"</span><span class="code-tag">&gt;</span>Adresse e-mail<span class="code-tag">&lt;/label&gt;</span>
+<span class="code-tag">&lt;input</span>
+  <span class="code-attr">id</span>=<span class="code-comment">"email"</span>
+  <span class="code-attr">name</span>=<span class="code-comment">"email"</span>
+  <span class="code-attr">type</span>=<span class="code-comment">"email"</span>
+  <span class="code-attr">autocomplete</span>=<span class="code-comment">"email"</span>
+  <span class="code-attr">required</span><span class="code-tag">&gt;</span></code></pre>
+    </article>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">03 / DOCUMENT</span>
+        <h2>Soigne le titre et la langue</h2>
+        <p>Le titre de l’onglet doit décrire la page. La langue déclarée sur <code>&lt;html&gt;</code> permet aux outils de prononcer correctement son contenu. Une description claire aide aussi à présenter la page dans les résultats de recherche.</p>
+      </div>
+      <pre><code><span class="code-tag">&lt;html</span> <span class="code-attr">lang</span>=<span class="code-comment">"fr"</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;head&gt;</span>
+    <span class="code-tag">&lt;title&gt;</span>Guide du jardin<span class="code-tag">&lt;/title&gt;</span>
+    <span class="code-tag">&lt;meta</span> <span class="code-attr">name</span>=<span class="code-comment">"description"</span>
+      <span class="code-attr">content</span>=<span class="code-comment">"Conseils pour débuter."</span><span class="code-tag">&gt;</span>
+  <span class="code-tag">&lt;/head&gt;</span></code></pre>
+    </article>
+    <nav class="course-pager" aria-label="Autres cours">
+      <a href="ex.html?fromLesson=1#parcours">&larr; Retour au parcours</a>
+      <a href="css-avance.html">Cours suivant : CSS &rarr;</a>
+    </nav>
+  </main>
+  <footer class="wrap"><p>Les bases du web · Chapitre HTML</p><p>Fait avec curiosité et quelques balises.</p></footer>
+</body>
+</html>

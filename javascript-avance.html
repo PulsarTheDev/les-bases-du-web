@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b090a">
+  <meta name="description" content="Approfondis JavaScript avec les événements, la transformation de données et les requêtes asynchrones.">
+  <title>JavaScript utile · Les bases du web</title>
+  <link rel="stylesheet" href="lessons.css">
+</head>
+<body>
+  <header class="topbar wrap">
+    <a class="wordmark" href="ex.html#accueil" aria-label="Les bases du web, accueil"><span class="mark" aria-hidden="true">&lt;/&gt;</span><span>Les bases du web</span></a>
+    <nav aria-label="Navigation principale">
+      <a href="ex.html">Accueil</a>
+      <a href="html-avance.html">HTML</a>
+      <a href="css-avance.html">CSS</a>
+      <a href="javascript-avance.html" aria-current="page">JavaScript</a>
+    </nav>
+  </header>
+  <main class="course-main wrap">
+    <header class="course-heading">
+      <p class="kicker">03 · Interaction</p>
+      <h1>JavaScript utile</h1>
+      <p class="lead">JavaScript relie les actions de la personne à l’état de la page. En séparant les données, les événements et l’affichage, ton code devient plus facile à suivre.</p>
+    </header>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">01 / ÉVÉNEMENTS</span>
+        <h2>Réagis à une action sans mêler les couches</h2>
+        <p>Place la structure du bouton dans le HTML, puis écoute son événement dans le script. Ici, le compteur évolue dans une variable et seul le texte affiché est mis à jour.</p>
+      </div>
+      <pre><code>const button = document.querySelector("#add");
+const output = document.querySelector("#count");
+let count = 0;
+
+button.addEventListener("click", () =&gt; {
+  count += 1;
+  output.textContent = String(count);
+});</code></pre>
+    </article>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">02 / DONNÉES</span>
+        <h2>Transforme une liste avant de l’afficher</h2>
+        <p><code>filter</code> choisit les éléments qui correspondent à un critère. <code>map</code> transforme chaque élément conservé. Ces méthodes créent de nouvelles listes au lieu de modifier la liste d’origine.</p>
+      </div>
+      <pre><code>const lessons = [
+  { title: "HTML", minutes: 12 },
+  { title: "CSS", minutes: 18 },
+  { title: "JavaScript", minutes: 25 },
+];
+
+const shortLessons = lessons
+  .filter((lesson) =&gt; lesson.minutes &lt;= 20)
+  .map((lesson) =&gt; lesson.title);
+
+console.log(shortLessons);</code></pre>
+    </article>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">03 / ASYNCHRONE</span>
+        <h2>Prévois les erreurs d’une requête</h2>
+        <p>Une requête réseau peut échouer, même si le code est correct. Avec <code>async</code> et <code>await</code>, le déroulement reste lisible; <code>try/catch</code> permet de traiter l’erreur au même endroit.</p>
+      </div>
+      <pre><code>async function loadLessons() {
+  try {
+    const response = await fetch("/api/lessons");
+    if (!response.ok) throw new Error("Réponse invalide");
+
+    const lessons = await response.json();
+    return lessons;
+  } catch (error) {
+    console.error("Chargement impossible", error);
+    return [];
+  }
+}</code></pre>
+    </article>
+    <nav class="course-pager" aria-label="Autres cours">
+      <a href="css-avance.html">&larr; Cours précédent : CSS</a>
+      <a href="ex.html?fromLesson=1#parcours">Retour au parcours &rarr;</a>
+    </nav>
+  </main>
+  <footer class="wrap"><p>Les bases du web · Chapitre JavaScript</p><p>Fait avec curiosité et quelques balises.</p></footer>
+</body>
+</html>

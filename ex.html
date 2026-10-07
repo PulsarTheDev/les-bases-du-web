@@ -1,0 +1,684 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b090a">
+  <meta name="description" content="Une première page pour découvrir le HTML.">
+  <title>Bonjour, HTML !</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --paper: #0b090a;
+      --ink: #f4eeee;
+      --muted: #a99b9d;
+      --line: #39272b;
+      --green: #a90e27;
+      --blue: #e52b45;
+      --coral: #f03a4f;
+      --code: #151012;
+      font-family: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      scroll-behavior: smooth;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      min-width: 320px;
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+
+    .intro {
+      position: fixed;
+      z-index: 10;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #090708;
+      color: var(--ink);
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .intro::before {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 50% 62%, #4a0a193d, transparent 58%);
+      content: "";
+    }
+
+    .intro-active .intro {
+      visibility: visible;
+      pointer-events: auto;
+      animation: intro-exit 3.5s ease-in-out both;
+    }
+
+    .intro-active { overflow: hidden; scroll-behavior: auto; }
+
+    .intro-skip {
+      position: absolute;
+      top: max(24px, env(safe-area-inset-top));
+      right: max(28px, env(safe-area-inset-right));
+      min-height: 42px;
+      padding: 0 14px;
+      border: 1px solid #6b2632;
+      border-radius: 2px;
+      background: #160d10;
+      color: #e7dadd;
+      cursor: pointer;
+      font: inherit;
+      font-size: .8rem;
+    }
+
+    .intro-skip:hover, .intro-skip:focus-visible { border-color: #ff657b; color: #ff9baa; }
+
+    .intro-content {
+      position: relative;
+      width: min(760px, calc(100% - 40px));
+      text-align: center;
+    }
+
+    .intro-label {
+      margin: 0 0 24px;
+      color: #d24a60;
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      animation: intro-rise .6s .15s both;
+    }
+
+    .intro-title {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.4rem, 10vw, 7rem);
+      font-weight: 400;
+      line-height: .95;
+      animation: intro-rise .75s .45s both;
+    }
+
+    .intro-title span { display: block; color: #e52b45; }
+
+    .intro-credit {
+      margin: 24px 0 0;
+      color: #e7dadd;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1rem;
+      font-style: italic;
+      animation: intro-rise .75s .7s both;
+    }
+
+    .intro-credit span { color: #ff657b; }
+
+    .intro-rule {
+      width: 0;
+      height: 2px;
+      margin: 28px auto 0;
+      background: #e52b45;
+      box-shadow: 0 0 22px #e52b4580;
+      animation: intro-rule 1s .85s ease-out forwards;
+    }
+
+    .intro-progress {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: #ffffff18;
+    }
+
+    .intro-progress span {
+      display: block;
+      width: 100%;
+      height: 100%;
+      transform: scaleX(0);
+      transform-origin: left;
+      background: #c4102d;
+      animation: intro-progress 3.5s linear both;
+    }
+
+    @keyframes intro-rise {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes intro-rule {
+      to { width: min(190px, 42vw); }
+    }
+
+    @keyframes intro-progress {
+      to { transform: scaleX(1); }
+    }
+
+    @keyframes intro-exit {
+      0%, 85% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+
+    .wrap {
+      width: min(1120px, calc(100% - 64px));
+      margin-inline: auto;
+    }
+
+    .topbar {
+      display: flex;
+      min-height: 82px;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .wordmark {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .95rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .mark {
+      display: grid;
+      width: 34px;
+      aspect-ratio: 1;
+      place-items: center;
+      border-radius: 10px 10px 10px 3px;
+      background: var(--green);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1.2rem;
+    }
+
+    .topbar nav { display: flex; align-items: center; gap: 30px; }
+    .topbar nav a { color: var(--muted); font-size: .9rem; text-decoration: none; }
+    .topbar nav a:hover, .topbar nav a:focus-visible { color: var(--blue); }
+
+    .hero {
+      display: grid;
+      min-height: 590px;
+      grid-template-columns: 1fr .92fr;
+      align-items: center;
+      gap: clamp(40px, 8vw, 100px);
+      padding-block: 76px 92px;
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: .78rem;
+      font-weight: 750;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--coral);
+      content: "";
+    }
+
+    h1, h2, p { margin-top: 0; }
+
+    h1 {
+      max-width: 620px;
+      margin-bottom: 22px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(3.5rem, 7vw, 6.4rem);
+      font-weight: 400;
+      letter-spacing: 0;
+      line-height: .97;
+    }
+
+    h1 span {
+      position: relative;
+      z-index: 0;
+      white-space: nowrap;
+    }
+
+    h1 span::after {
+      position: absolute;
+      z-index: -1;
+      right: -5px;
+      bottom: 1px;
+      left: -5px;
+      height: 19px;
+      transform: rotate(-1.5deg);
+      background: var(--green);
+      content: "";
+    }
+
+    .hero-copy > p:not(.kicker) {
+      max-width: 440px;
+      margin-bottom: 30px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      gap: 11px;
+      padding: 0 19px;
+      border-radius: 4px;
+      background: #a90e27;
+      color: #fff;
+      font-size: .9rem;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform .18s ease, background-color .18s ease;
+    }
+
+    .button:hover { transform: translateY(-2px); background: var(--blue); }
+    .button:focus-visible, a:focus-visible { outline: 3px solid var(--blue); outline-offset: 4px; }
+
+    .arrow { font-size: 1.2rem; line-height: 1; }
+
+    .code-window {
+      overflow: hidden;
+      border: 1px solid #39272b;
+      border-radius: 8px;
+      background: var(--code);
+      box-shadow: 10px 10px 0 var(--green);
+    }
+
+    .window-bar {
+      display: flex;
+      height: 50px;
+      align-items: center;
+      justify-content: space-between;
+      padding-inline: 18px;
+      color: #b9a9ac;
+      font-size: .75rem;
+    }
+
+    .dots { display: flex; gap: 6px; }
+    .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--coral); }
+    .dots i:nth-child(2) { background: #a91e37; }
+    .dots i:nth-child(3) { background: #5d1422; }
+
+    pre {
+      overflow-x: auto;
+      margin: 0;
+      padding: 30px clamp(18px, 4vw, 36px) 36px;
+      color: #f4eeee;
+      font: 500 clamp(.76rem, 1.6vw, .94rem)/2 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      tab-size: 2;
+    }
+
+    .tag { color: #ff657b; }
+    .attr { color: #e1a2ad; }
+    .text { color: #f0c2c8; }
+    .comment { color: #88777a; }
+
+    .lesson {
+      padding-block: 30px 76px;
+      border-top: 1px solid var(--line);
+    }
+
+    .lesson-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      padding-bottom: 25px;
+    }
+
+    .lesson-heading p { margin: 0; color: var(--muted); font-size: .9rem; }
+
+    h2 {
+      margin-bottom: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 2rem;
+      font-weight: 400;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--line);
+    }
+
+    .step {
+      min-height: 176px;
+      padding: 22px 24px 10px 0;
+    }
+
+    .step + .step { padding-left: 24px; border-left: 1px solid var(--line); }
+
+    .step-number {
+      display: inline-grid;
+      width: 30px;
+      aspect-ratio: 1;
+      margin-bottom: 14px;
+      place-items: center;
+      border-radius: 2px;
+      background: var(--green);
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .step:nth-child(2) .step-number { background: #76172b; }
+    .step:nth-child(3) .step-number { background: #4d1520; }
+    .step h3 { margin: 0 0 5px; font-size: 1rem; }
+    .step p { max-width: 285px; margin: 0; color: var(--muted); font-size: .88rem; }
+
+    .web-stack {
+      padding-block: 34px 70px;
+      border-top: 1px solid var(--line);
+    }
+
+    .web-stack-heading { max-width: 680px; margin-bottom: 28px; }
+    .web-stack-heading p { margin: 9px 0 0; color: var(--muted); }
+    .web-stack-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+    .stack-item { padding: 8px 25px 4px 0; }
+    .stack-item + .stack-item { padding-left: 25px; border-left: 1px solid var(--line); }
+    .stack-label { display: block; margin-bottom: 11px; font-size: .74rem; font-weight: 800; letter-spacing: .08em; }
+    .stack-item:nth-child(1) .stack-label { color: #ff8b9a; }
+    .stack-item:nth-child(2) .stack-label { color: #83d2b4; }
+    .stack-item:nth-child(3) .stack-label { color: #91bce8; }
+    .stack-item h3 { margin: 0 0 8px; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 400; }
+    .stack-item p { max-width: 300px; margin: 0; color: var(--muted); font-size: .9rem; }
+    .stack-example { display: block; margin-top: 15px; color: var(--ink); font-size: .8rem; }
+    .stack-order { margin: 25px 0 0; padding-top: 17px; border-top: 1px solid var(--line); color: var(--muted); font-size: .88rem; }
+    .stack-order strong { color: var(--ink); }
+
+    .contact {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      padding-block: 34px 42px;
+      border-top: 1px solid var(--line);
+    }
+
+    .contact-copy p { margin: 8px 0 0; color: var(--muted); }
+    .contact-address { color: #ff8b9a; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+    .contact .button { flex: 0 0 auto; }
+
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-block: 20px 28px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: .8rem;
+    }
+
+    .footer-note { margin: 0; }
+
+    .courses { padding-block: 34px 78px; border-top: 1px solid var(--line); }
+    .courses-heading { padding-bottom: 24px; }
+    .courses-heading p { margin: 8px 0 0; color: var(--muted); }
+    .course-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+    .course-link {
+      display: grid;
+      min-height: 178px;
+      align-content: start;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: border-color .18s ease, background-color .18s ease;
+    }
+    .course-link:hover { border-color: var(--coral); background: var(--code); }
+    .course-index { margin-bottom: 12px; color: var(--coral); font-size: .72rem; font-weight: 800; }
+    .course-link h3 { margin: 0 0 7px; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 400; }
+    .course-link p { margin: 0 0 16px; color: var(--muted); font-size: .88rem; }
+    .course-action { align-self: end; color: #ff8b9a; font-size: .84rem; font-weight: 700; }
+
+    .footer-credit {
+      margin: 0;
+      color: #ff9baa;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 1rem;
+      font-style: italic;
+      animation: credit-glow 2.8s ease-in-out infinite alternate;
+    }
+
+    .footer-credit span { color: #fff0f2; }
+
+    @keyframes credit-glow {
+      from { text-shadow: 0 0 5px #e52b4540, 0 0 12px #e52b4520; }
+      to { text-shadow: 0 0 10px #ff657bba, 0 0 24px #e52b4570; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+
+    @media (max-width: 760px) {
+      .wrap { width: min(100% - 40px, 560px); }
+      .hero { min-height: auto; grid-template-columns: 1fr; gap: 48px; padding-block: 72px 78px; }
+      h1 { font-size: clamp(3.3rem, 13vw, 5.5rem); }
+      .code-window { max-width: 560px; box-shadow: 10px 12px 0 var(--green); }
+      .course-grid { grid-template-columns: repeat(2, 1fr); }
+      .web-stack-grid { grid-template-columns: 1fr; }
+      .stack-item { padding: 17px 0; }
+      .stack-item + .stack-item { padding-left: 0; border-top: 1px solid var(--line); border-left: 0; }
+      .lesson-heading { align-items: start; flex-direction: column; gap: 8px; }
+      .contact { align-items: flex-start; flex-direction: column; gap: 20px; }
+    }
+
+    @media (max-width: 520px) {
+      .wrap { width: calc(100% - 36px); }
+      .intro-skip { top: max(18px, env(safe-area-inset-top)); right: max(18px, env(safe-area-inset-right)); }
+      .topbar { min-height: 70px; }
+      .topbar nav { flex-wrap: wrap; gap: 8px 16px; }
+      .topbar nav a { font-size: .82rem; }
+      .hero { gap: 40px; padding-block: 58px 66px; }
+      .course-grid { grid-template-columns: 1fr; }
+      .steps { grid-template-columns: 1fr; }
+      .step { min-height: auto; padding: 20px 0; }
+      .step + .step { padding-left: 0; border-top: 1px solid var(--line); border-left: 0; }
+      pre { font-size: .73rem; }
+    }
+  </style>
+  <script>
+    const returningFromLesson = new URLSearchParams(window.location.search).has("fromLesson");
+    if (!returningFromLesson && "scrollRestoration" in history) {
+      history.scrollRestoration = "manual";
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+    if (!returningFromLesson && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("intro-active");
+    }
+  </script>
+</head>
+<body>
+  <section class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+    <button class="intro-skip" id="intro-skip" type="button">Passer l'intro</button>
+    <div class="intro-content">
+      <p class="intro-label">Les bases du web · Chapitre 01</p>
+      <h1 class="intro-title" id="intro-title">Bonjour,<span>HTML !</span></h1>
+      <p class="intro-credit">Coded by <span>Pulsar</span></p>
+      <div class="intro-rule" aria-hidden="true"></div>
+    </div>
+    <div class="intro-progress" aria-hidden="true"><span></span></div>
+  </section>
+
+  <header class="topbar wrap">
+    <a class="wordmark" href="#accueil" aria-label="Les bases du web, accueil">
+      <span class="mark" aria-hidden="true">&lt;/&gt;</span>
+      <span>Les bases du web</span>
+    </a>
+    <nav aria-label="Navigation principale">
+      <a href="html-avance.html">HTML</a>
+      <a href="css-avance.html">CSS</a>
+      <a href="javascript-avance.html">JavaScript</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main id="accueil" class="wrap" tabindex="-1">
+    <section class="hero" id="decouvrir" aria-labelledby="titre-principal">
+      <div class="hero-copy">
+        <p class="kicker">Ton premier pas sur le web</p>
+        <h1 id="titre-principal">Bonjour,<br><span>HTML !</span></h1>
+        <p>Chaque site commence par quelques lignes de code. Voici la toute première : simple, lisible, et déjà pleine de possibilités.</p>
+        <a class="button" href="#bases">Découvrir les bases <span class="arrow" aria-hidden="true">&darr;</span></a>
+      </div>
+
+      <div class="code-window" aria-label="Exemple de code HTML">
+        <div class="window-bar">
+          <span class="dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span>ma-premiere-page.html</span>
+          <span aria-hidden="true">&lt;/&gt;</span>
+        </div>
+        <pre><code><span class="comment">&lt;!-- Ma première page --&gt;</span>
+<span class="tag">&lt;h1&gt;</span>Bonjour, le monde !<span class="tag">&lt;/h1&gt;</span>
+
+<span class="tag">&lt;p&gt;</span>
+  <span class="text">J'apprends le HTML.</span>
+<span class="tag">&lt;/p&gt;</span>
+
+<span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="text">"#suite"</span><span class="tag">&gt;</span>
+  On continue ?
+<span class="tag">&lt;/a&gt;</span></code></pre>
+      </div>
+    </section>
+
+    <section class="lesson" id="bases" aria-labelledby="titre-bases">
+      <div class="lesson-heading">
+        <h2 id="titre-bases">Trois petites choses à savoir</h2>
+        <p>Et tu as déjà commencé.</p>
+      </div>
+      <div class="steps">
+        <article class="step">
+          <span class="step-number">01</span>
+          <h3>Les balises structurent</h3>
+          <p><code>&lt;h1&gt;</code> annonce un titre, <code>&lt;p&gt;</code> ouvre un paragraphe.</p>
+        </article>
+        <article class="step">
+          <span class="step-number">02</span>
+          <h3>Le texte donne vie</h3>
+          <p>Écris quelques mots entre une balise ouvrante et sa balise fermante.</p>
+        </article>
+        <article class="step">
+          <span class="step-number">03</span>
+          <h3>Le navigateur fait le reste</h3>
+          <p>Enregistre ton fichier en <code>.html</code>, puis ouvre-le dans ton navigateur.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="web-stack" aria-labelledby="titre-stack">
+      <div class="web-stack-heading">
+        <h2 id="titre-stack">Un site, trois rôles</h2>
+        <p>Ces langages travaillent ensemble, mais chacun répond à une question différente.</p>
+      </div>
+      <div class="web-stack-grid">
+        <article class="stack-item">
+          <span class="stack-label">01 / CONTENU</span>
+          <h3>HTML structure</h3>
+          <p>Il donne un sens au contenu : titres, paragraphes, liens, images et formulaires.</p>
+          <code class="stack-example">&lt;h1&gt;Mon jardin&lt;/h1&gt;</code>
+        </article>
+        <article class="stack-item">
+          <span class="stack-label">02 / APPARENCE</span>
+          <h3>CSS présente</h3>
+          <p>Il règle la mise en page, les couleurs et l’adaptation aux différentes tailles d’écran.</p>
+          <code class="stack-example">h1 { color: forestgreen; }</code>
+        </article>
+        <article class="stack-item">
+          <span class="stack-label">03 / ACTION</span>
+          <h3>JavaScript réagit</h3>
+          <p>Il répond aux actions, met à jour la page et peut échanger des données avec un serveur.</p>
+          <code class="stack-example">button.addEventListener(...)</code>
+        </article>
+      </div>
+      <p class="stack-order"><strong>Un bon réflexe :</strong> commence par un HTML compréhensible, ajoute le CSS, puis le JavaScript nécessaire aux interactions.</p>
+    </section>
+
+    <section class="courses" id="parcours" aria-labelledby="titre-parcours">
+      <div class="courses-heading">
+        <h2 id="titre-parcours">Pour aller plus loin</h2>
+        <p>Trois étapes pour comprendre comment les sites prennent forme.</p>
+      </div>
+      <div class="course-grid">
+        <a class="course-link" href="html-avance.html">
+          <span class="course-index">01 · STRUCTURE</span>
+          <h3>HTML plus solide</h3>
+          <p>Sémantique, formulaires accessibles et métadonnées utiles.</p>
+          <span class="course-action">Explorer le HTML <span aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a class="course-link" href="css-avance.html">
+          <span class="course-index">02 · PRÉSENTATION</span>
+          <h3>CSS au quotidien</h3>
+          <p>Variables, mises en page adaptatives et états de focus.</p>
+          <span class="course-action">Explorer le CSS <span aria-hidden="true">&rarr;</span></span>
+        </a>
+        <a class="course-link" href="javascript-avance.html">
+          <span class="course-index">03 · INTERACTION</span>
+          <h3>JavaScript utile</h3>
+          <p>Événements, tableaux de données et opérations asynchrones.</p>
+          <span class="course-action">Explorer JavaScript <span aria-hidden="true">&rarr;</span></span>
+        </a>
+      </div>
+    </section>
+
+    <section class="contact" id="contact" aria-labelledby="titre-contact">
+      <div class="contact-copy">
+        <h2 id="titre-contact">On échange ?</h2>
+        <p>Je m'appelle Ziyad Elfellaki, mais tu peux m'appeler Pulsar.</p>
+        <p>Écris-moi à <a class="contact-address" href="mailto:contactmepulsar@gmail.com">contactmepulsar@gmail.com</a></p>
+      </div>
+      <a class="button" href="mailto:contactmepulsar@gmail.com?subject=Bonjour%20!">M'envoyer un e-mail <span class="arrow" aria-hidden="true">&rarr;</span></a>
+    </section>
+  </main>
+
+  <footer class="wrap">
+    <p class="footer-note">Fait avec curiosité et quelques balises.</p>
+    <p class="footer-credit">Coded by <span>Pulsar</span></p>
+  </footer>
+  <script>
+    const intro = document.querySelector("#intro");
+    const skipIntro = document.querySelector("#intro-skip");
+    const pageContent = document.querySelectorAll("body > header, body > main, body > footer");
+
+    if (document.documentElement.classList.contains("intro-active")) {
+      pageContent.forEach((element) => { element.inert = true; });
+      skipIntro.focus({ preventScroll: true });
+      const scrollResetTimer = window.setTimeout(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+      }, 2800);
+
+      const closeIntro = () => {
+        if (!document.documentElement.classList.contains("intro-active")) return;
+        window.clearTimeout(scrollResetTimer);
+        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        document.documentElement.classList.remove("intro-active");
+        pageContent.forEach((element) => { element.inert = false; });
+        skipIntro.blur();
+      };
+
+      window.setTimeout(closeIntro, 3500);
+      skipIntro.addEventListener("click", closeIntro);
+      intro.addEventListener("animationend", (event) => {
+        if (event.target === intro && event.animationName === "intro-exit") closeIntro();
+      });
+      intro.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") closeIntro();
+        if (event.key === "Tab") {
+          event.preventDefault();
+          skipIntro.focus();
+        }
+      });
+    }
+  </script>
+</body>
+</html>

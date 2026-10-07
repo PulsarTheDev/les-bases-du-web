@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b090a">
+  <meta name="description" content="Découvre des outils CSS pour créer des mises en page cohérentes, adaptatives et accessibles.">
+  <title>CSS au quotidien · Les bases du web</title>
+  <link rel="stylesheet" href="lessons.css">
+</head>
+<body>
+  <header class="topbar wrap">
+    <a class="wordmark" href="ex.html#accueil" aria-label="Les bases du web, accueil"><span class="mark" aria-hidden="true">&lt;/&gt;</span><span>Les bases du web</span></a>
+    <nav aria-label="Navigation principale">
+      <a href="ex.html">Accueil</a>
+      <a href="html-avance.html">HTML</a>
+      <a href="css-avance.html" aria-current="page">CSS</a>
+      <a href="javascript-avance.html">JavaScript</a>
+    </nav>
+  </header>
+  <main class="course-main wrap">
+    <header class="course-heading">
+      <p class="kicker">02 · Présentation</p>
+      <h1>Du CSS qui tient la route</h1>
+      <p class="lead">Le CSS ne sert pas qu’à choisir des couleurs. Il aide à organiser les éléments, à gérer différentes tailles d’écran et à rendre les interactions visibles.</p>
+    </header>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">01 / COHÉRENCE</span>
+        <h2>Centralise les valeurs qui reviennent</h2>
+        <p>Les propriétés personnalisées permettent de réutiliser les mêmes couleurs ou espacements. Un changement dans un seul endroit met à jour toutes les règles qui utilisent la variable.</p>
+      </div>
+      <pre><code>:root {
+  --ink: #f4eeee;
+  --surface: #151012;
+  --accent: #e52b45;
+  --space: 1.25rem;
+}
+
+.notice {
+  padding: var(--space);
+  color: var(--ink);
+  border-left: 3px solid var(--accent);
+}</code></pre>
+    </article>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">02 / MISE EN PAGE</span>
+        <h2>Laisse Grid répartir le contenu</h2>
+        <p>Avec <code>minmax()</code> et <code>auto-fit</code>, une grille crée autant de colonnes que possible, sans imposer une largeur fixe aux petits écrans. Les éléments passent naturellement à la ligne.</p>
+      </div>
+      <pre><code>.gallery {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+.gallery img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}</code></pre>
+    </article>
+    <article class="concept">
+      <div class="concept-copy">
+        <span class="concept-number">03 / INTERACTION</span>
+        <h2>Rends le focus et le mouvement prévisibles</h2>
+        <p>Une indication de focus visible aide à suivre la navigation au clavier. Les préférences de mouvement réduit permettent de désactiver les transitions non essentielles pour les personnes qui le demandent.</p>
+      </div>
+      <pre><code>a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+  }
+}</code></pre>
+    </article>
+    <nav class="course-pager" aria-label="Autres cours">
+      <a href="html-avance.html">&larr; Cours précédent : HTML</a>
+      <a href="javascript-avance.html">Cours suivant : JavaScript &rarr;</a>
+    </nav>
+  </main>
+  <footer class="wrap"><p>Les bases du web · Chapitre CSS</p><p>Fait avec curiosité et quelques balises.</p></footer>
+</body>
+</html>
